@@ -16,15 +16,15 @@
 
 ##*Tools & Technologies Used*: 
 
-*Java*: Used for implementing data processing and recommendation logic.
+1.*Java*: Used for implementing data processing and recommendation logic.
 
-*VS Code*: Used to write and save the Java program.
+2.*VS Code*: Used to write and save the Java program.
 
-*Command Prompt (CMD)*: Used to compile and execute the program.
+3.*Command Prompt (CMD)*: Used to compile and execute the program.
 
-*File Handling (java.io package)*: Used to read user preferences from a CSV file.
+4.*File Handling (java.io package)*: Used to read user preferences from a CSV file.
 
-*Data Structures (HashMap, ArrayList)*: Used to store and process user ratings.
+5.*Data Structures (HashMap, ArrayList)*: Used to store and process user ratings.
 
 ##*Commands Used*:
 
@@ -52,9 +52,9 @@
 
 4,Book E,5
 
-Each line represents: UserID, Item, Rating
+->Each line represents: UserID, Item, Rating
 
-The system uses collaborative filtering to suggest items a user has not rated based on other users' preferences.
+->The system uses collaborative filtering to suggest items a user has not rated based on other users' preferences.
 
 
 ##*Working of the Program*:
@@ -75,3 +75,5 @@ The system uses collaborative filtering to suggest items a user has not rated ba
 3.Personalized content suggestion systems.
 
 ##*Output* : 
+
+![Image](https://github.com/user-attachments/assets/0375792a-9619-41bf-a5ea-c570c16f63f2)
