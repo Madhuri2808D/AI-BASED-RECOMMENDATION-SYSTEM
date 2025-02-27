@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+
+class RecommendationSystem {
+    private static final String FILE_PATH = "data.csv"; // Path to the CSV file
+    private static final Map<Integer, Map<String, Integer>> userRatings = new HashMap<>();
+
+    public static void main(String[] args) {
+        readData(); // Load data from CSV
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter User ID for recommendations: ");
+        int userId = scanner.nextInt();
+
+        List<String> recommendations = getRecommendations(userId);
+        if (recommendations.isEmpty()) {
+            System.out.println("No recommendations found.");
+        } else {
+            System.out.println("Recommended items for User " + userId + ": " + recommendations);
+        }
+    }
+
+    private static void readData() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty())
+                    continue; // Skip empty lines
+
+                String[] parts = line.split(",");
+                if (parts.length < 3)
+                    continue; // Skip malformed lines
+
+                int userId = Integer.parseInt(parts[0].trim());
+                String item = parts[1].trim();
+                int rating = Integer.parseInt(parts[2].trim());
+
+                userRatings.putIfAbsent(userId, new HashMap<>());
+                userRatings.get(userId).put(item, rating);
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    private static List<String> getRecommendations(int userId) {
+        Map<String, Integer> currentUserRatings = userRatings.get(userId);
+        if (currentUserRatings == null)
+            return Collections.emptyList();
+
+        Map<String, Integer> recommendedItems = new HashMap<>();
+
+        for (Map.Entry<Integer, Map<String, Integer>> entry : userRatings.entrySet()) {
+            if (entry.getKey() == userId)
+                continue; // Skip self
+
+            for (Map.Entry<String, Integer> itemEntry : entry.getValue().entrySet()) {
+                String item = itemEntry.getKey();
+                int rating = itemEntry.getValue();
+
+                if (!currentUserRatings.containsKey(item)) { // Only recommend unseen items
+                    recommendedItems.put(item, recommendedItems.getOrDefault(item, 0) + rating);
+                }
+            }
+        }
+
+        List<String> sortedItems = new ArrayList<>(recommendedItems.keySet());
+        sortedItems.sort((a, b) -> recommendedItems.get(b) - recommendedItems.get(a)); // Sort by rating
+        return sortedItems;
+    }
+}
